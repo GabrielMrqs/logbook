@@ -25,6 +25,8 @@
 		return `${day}/${month}/${year}`;
 	};
 
+	const toStarLabel = (value: number | null) => (value ? `${value}★` : '-');
+
 	const resetForm = () => {
 		date = today;
 		weightKg = '';
@@ -193,18 +195,12 @@
 									<td>{toDateLabel(entry.date)}</td>
 									<td>{entry.weightKg ?? '-'}</td>
 									<td>
-										{entry.trainedBjj ? 'Yes' : 'No'}
-										{#if entry.bjjRatingStars}
-											<span class="muted"> · {entry.bjjRatingStars}★</span>
-										{/if}
+										{toStarLabel(entry.bjjRatingStars)}
 									</td>
 									<td>
-										{entry.wentGym ? 'Yes' : 'No'}
-										{#if entry.gymRatingStars}
-											<span class="muted"> · {entry.gymRatingStars}★</span>
-										{/if}
+										{toStarLabel(entry.gymRatingStars)}
 									</td>
-									<td>{entry.ratingStars ?? '-'}</td>
+									<td>{toStarLabel(entry.ratingStars)}</td>
 									<td class="actions-cell">
 										<button type="button" class="link" onclick={() => editEntry(entry)}>Edit</button>
 										<form method="POST" action="?/delete">

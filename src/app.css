@@ -283,6 +283,15 @@ td {
 	td {
 		padding: 10px 8px;
 	}
+
+	.actions-cell {
+		justify-content: center;
+	}
+
+	.actions-cell form,
+	.actions-cell button {
+		margin: 0 auto;
+	}
 }
 
 @media (max-width: 480px) {
