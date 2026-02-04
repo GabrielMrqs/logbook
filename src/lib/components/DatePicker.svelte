@@ -12,6 +12,8 @@
 		picker = flatpickr(input, {
 			dateFormat: 'd/m/Y',
 			allowInput: true,
+			disableMobile: true,
+			position: 'auto center',
 			defaultDate: value || undefined,
 			onChange: (_selectedDates, dateStr) => {
 				value = dateStr;

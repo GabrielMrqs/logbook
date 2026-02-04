@@ -126,6 +126,20 @@ textarea {
 	width: 100%;
 }
 
+.flatpickr-calendar {
+	max-width: calc(100vw - 16px);
+	left: 8px !important;
+	right: 8px !important;
+}
+
+.flatpickr-innerContainer {
+	justify-content: center;
+}
+
+.flatpickr-rContainer {
+	width: 100%;
+}
+
 input:focus,
 textarea:focus {
 	outline: 2px solid #9bbfdd;
