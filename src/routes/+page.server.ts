@@ -54,7 +54,14 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const session = await locals.auth();
 
 	if (!session?.user?.id) {
-		return { entriesAsc: [], entriesRecent: [], today: formatDdMmYyyy(todayUtc), session: null };
+		return {
+			entriesAsc: [],
+			entriesRecent: [],
+			today: formatDdMmYyyy(todayUtc),
+			gymDaysCount: 0,
+			jiuDaysCount: 0,
+			session: null
+		};
 	}
 
 	const userId = session.user.id;
@@ -68,7 +75,12 @@ export const load: PageServerLoad = async ({ locals }) => {
 		take: 14
 	});
 
-	return { entriesAsc, entriesRecent, today: formatDdMmYyyy(todayUtc), session };
+	const [gymDaysCount, jiuDaysCount] = await Promise.all([
+		prisma.entry.count({ where: { userId, wentGym: true } }),
+		prisma.entry.count({ where: { userId, trainedBjj: true } })
+	]);
+
+	return { entriesAsc, entriesRecent, today: formatDdMmYyyy(todayUtc), gymDaysCount, jiuDaysCount, session };
 };
 
 export const actions: Actions = {

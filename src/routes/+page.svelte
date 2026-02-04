@@ -222,6 +222,16 @@
 
 		<section class="panel">
 			<h2>Trends</h2>
+			<div class="stats-grid">
+				<div class="stat-card">
+					<p class="stat-label">Gym days</p>
+					<p class="stat-value">{data.gymDaysCount}</p>
+				</div>
+				<div class="stat-card">
+					<p class="stat-label">Jiu-jitsu days</p>
+					<p class="stat-value">{data.jiuDaysCount}</p>
+				</div>
+			</div>
 			{#if data.entriesAsc.length < 2}
 				<p class="muted">Add at least two entries to see the chart.</p>
 			{:else}

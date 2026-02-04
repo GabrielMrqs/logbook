@@ -175,6 +175,35 @@ button.link.danger {
 	overflow-x: auto;
 }
 
+.stats-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 12px;
+	margin: 12px 0 16px;
+}
+
+.stat-card {
+	border-radius: 14px;
+	border: 1px solid #ece6d8;
+	background: #fffaf0;
+	padding: 14px 16px;
+	display: grid;
+	gap: 4px;
+}
+
+.stat-label {
+	margin: 0;
+	color: #6b7280;
+	font-size: 0.9rem;
+}
+
+.stat-value {
+	margin: 0;
+	font-size: 1.6rem;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+}
+
 table {
 	width: 100%;
 	border-collapse: collapse;

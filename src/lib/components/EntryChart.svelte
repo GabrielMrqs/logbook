@@ -20,8 +20,6 @@
 		const labels = entries.map((e) => toDateLabel(e.date));
 		const weightData = entries.map((e) => e.weightKg ?? null);
 		const ratingData = entries.map((e) => e.ratingStars ?? null);
-		const bjjFlags = entries.map((e) => (e.trainedBjj ? 1 : null));
-		const gymFlags = entries.map((e) => (e.wentGym ? 0.8 : null));
 		const bjjRatingData = entries.map((e) => e.bjjRatingStars ?? null);
 		const gymRatingData = entries.map((e) => e.gymRatingStars ?? null);
 
@@ -41,49 +39,31 @@
 						yAxisID: 'yWeight'
 					},
 					{
-						label: 'Rating (1–5)',
+						label: 'Day rating (1–5)',
 						data: ratingData,
 						borderColor: '#c05621',
 						backgroundColor: 'rgba(192, 86, 33, 0.15)',
 						spanGaps: true,
 						tension: 0.2,
-						yAxisID: 'yRating'
+						yAxisID: 'yNotes'
 					},
 					{
-						label: 'BJJ Rating',
+						label: 'Jiu-jitsu rating',
 						data: bjjRatingData,
 						borderColor: '#2f855a',
 						backgroundColor: 'rgba(47, 133, 90, 0.15)',
 						spanGaps: true,
 						tension: 0.2,
-						yAxisID: 'yRating'
+						yAxisID: 'yNotes'
 					},
 					{
-						label: 'Gym Rating',
+						label: 'Gym rating',
 						data: gymRatingData,
 						borderColor: '#805ad5',
 						backgroundColor: 'rgba(128, 90, 213, 0.15)',
 						spanGaps: true,
 						tension: 0.2,
-						yAxisID: 'yRating'
-					},
-					{
-						label: 'BJJ',
-						data: bjjFlags,
-						showLine: false,
-						pointRadius: 4,
-						pointBackgroundColor: '#2f855a',
-						borderColor: '#2f855a',
-						yAxisID: 'yFlags'
-					},
-					{
-						label: 'Gym',
-						data: gymFlags,
-						showLine: false,
-						pointRadius: 4,
-						pointBackgroundColor: '#805ad5',
-						borderColor: '#805ad5',
-						yAxisID: 'yFlags'
+						yAxisID: 'yNotes'
 					}
 				]
 			},
@@ -92,25 +72,30 @@
 				maintainAspectRatio: false,
 				interaction: { mode: 'index', intersect: false },
 				plugins: {
-					legend: { position: 'bottom' }
+					legend: { position: 'bottom' },
+					tooltip: {
+						callbacks: {
+							label: (context) => {
+								const value = context.parsed?.y;
+								if (value === null || value === undefined) {
+									return `${context.dataset.label}: No note`;
+								}
+								return `${context.dataset.label}: ${value}`;
+							}
+						}
+					}
 				},
 				scales: {
 					yWeight: {
 						position: 'left',
 						title: { display: true, text: 'Weight (kg)' }
 					},
-					yRating: {
+					yNotes: {
 						position: 'right',
 						min: 1,
 						max: 5,
-						title: { display: true, text: 'Ratings' },
+						title: { display: true, text: 'Ratings (1–5)' },
 						grid: { drawOnChartArea: false }
-					},
-					yFlags: {
-						position: 'right',
-						display: false,
-						min: 0,
-						max: 1
 					}
 				}
 			}
