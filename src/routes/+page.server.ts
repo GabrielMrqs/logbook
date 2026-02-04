@@ -8,7 +8,8 @@ const toUtcDate = (value: string) => {
 	const month = Number(monthStr);
 	const year = Number(yearStr);
 	if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year)) return null;
-	const date = new Date(Date.UTC(year, month - 1, day));
+	// Store at noon UTC to avoid day shifting when rendered in local timezones.
+	const date = new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
 	if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return null;
 	return date;
 };
@@ -47,7 +48,9 @@ const validateStarRating = (value: number | null, label: string) => {
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const today = new Date();
-	const todayUtc = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+	const todayUtc = new Date(
+		Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 12, 0, 0)
+	);
 	const session = await locals.auth();
 
 	if (!session?.user?.id) {
