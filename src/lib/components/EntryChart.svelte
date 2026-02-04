@@ -116,4 +116,10 @@
 		height: 320px;
 		width: 100%;
 	}
+
+	@media (max-width: 640px) {
+		.chart-wrap {
+			height: 240px;
+		}
+	}
 </style>

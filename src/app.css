@@ -123,6 +123,7 @@ textarea {
 	border: 1px solid #d8d5ce;
 	padding: 8px 10px;
 	background: #fffaf0;
+	width: 100%;
 }
 
 input:focus,
@@ -142,6 +143,10 @@ textarea:focus {
 	display: flex;
 	gap: 12px;
 	flex-wrap: wrap;
+}
+
+.actions button {
+	flex: 1 1 auto;
 }
 
 button {
@@ -224,6 +229,16 @@ td {
 }
 
 @media (max-width: 640px) {
+	main {
+		margin: 0;
+		padding: 0;
+		gap: 16px;
+	}
+
+	.panel {
+		padding: 16px;
+	}
+
 	.panel.header {
 		flex-direction: column;
 		align-items: flex-start;
@@ -232,5 +247,63 @@ td {
 	.actions {
 		flex-direction: column;
 		align-items: stretch;
+	}
+
+	.grid {
+		grid-template-columns: 1fr;
+	}
+
+	.grid.comments {
+		grid-template-columns: 1fr;
+	}
+
+	.stats-grid {
+		grid-template-columns: 1fr;
+	}
+
+	table {
+		font-size: 1rem;
+	}
+
+	th,
+	td {
+		padding: 10px 8px;
+	}
+}
+
+@media (max-width: 480px) {
+	:root {
+		font-size: 18px;
+	}
+
+	.panel {
+		padding: 16px;
+		border-radius: 12px;
+	}
+
+	h1 {
+		font-size: 1.75rem;
+	}
+
+	h2 {
+		font-size: 1.35rem;
+	}
+
+	button {
+		width: 100%;
+	}
+
+	input,
+	textarea {
+		padding: 12px 14px;
+		font-size: 1.05rem;
+	}
+
+	.stat-value {
+		font-size: 1.9rem;
+	}
+
+	.section-label {
+		font-size: 0.95rem;
 	}
 }
