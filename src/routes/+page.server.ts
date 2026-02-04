@@ -2,14 +2,14 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { prisma } from '$lib/server/db';
 
-const toLocalMidnight = (value: string) => {
+const toUtcDate = (value: string) => {
 	const [dayStr, monthStr, yearStr] = value.split('/');
 	const day = Number(dayStr);
 	const month = Number(monthStr);
 	const year = Number(yearStr);
 	if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year)) return null;
-	const date = new Date(year, month - 1, day);
-	if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
+	const date = new Date(Date.UTC(year, month - 1, day));
+	if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return null;
 	return date;
 };
 
@@ -31,9 +31,9 @@ const parseOptionalNumber = (value: FormDataEntryValue | null, label: string) =>
 };
 
 const formatDdMmYyyy = (value: Date) => {
-	const day = String(value.getDate()).padStart(2, '0');
-	const month = String(value.getMonth() + 1).padStart(2, '0');
-	const year = String(value.getFullYear());
+	const day = String(value.getUTCDate()).padStart(2, '0');
+	const month = String(value.getUTCMonth() + 1).padStart(2, '0');
+	const year = String(value.getUTCFullYear());
 	return `${day}/${month}/${year}`;
 };
 
@@ -47,11 +47,11 @@ const validateStarRating = (value: number | null, label: string) => {
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const today = new Date();
-	const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+	const todayUtc = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
 	const session = await locals.auth();
 
 	if (!session?.user?.id) {
-		return { entriesAsc: [], entriesRecent: [], today: formatDdMmYyyy(todayLocal), session: null };
+		return { entriesAsc: [], entriesRecent: [], today: formatDdMmYyyy(todayUtc), session: null };
 	}
 
 	const userId = session.user.id;
@@ -65,7 +65,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		take: 14
 	});
 
-	return { entriesAsc, entriesRecent, today: formatDdMmYyyy(todayLocal), session };
+	return { entriesAsc, entriesRecent, today: formatDdMmYyyy(todayUtc), session };
 };
 
 export const actions: Actions = {
@@ -81,7 +81,7 @@ export const actions: Actions = {
 		if (!dateValue) {
 			return fail(400, { error: 'Date is required.' });
 		}
-		const date = toLocalMidnight(dateValue);
+		const date = toUtcDate(dateValue);
 		if (!date) {
 			return fail(400, { error: 'Date must be in dd/MM/yyyy format.' });
 		}
