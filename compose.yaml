@@ -31,3 +31,7 @@ services:
 
 volumes:
   logbook_pg:
+
+networks:
+  proxy:
+    external: true
