@@ -3,7 +3,7 @@ set -eu
 
 echo "Running database migrations..."
 tries=0
-until pnpm prisma migrate deploy; do
+until prisma migrate deploy; do
   tries=$((tries + 1))
   if [ "$tries" -ge 10 ]; then
     echo "Migration failed after $tries attempts."

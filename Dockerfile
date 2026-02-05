@@ -25,6 +25,9 @@ ENV HOST=0.0.0.0
 ENV PORT=3000
 WORKDIR /app
 
+# Install Prisma CLI for runtime migrations without changing lockfile
+RUN npm i -g prisma@6.1.0
+
 # Copy production node_modules and build output
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/build ./build

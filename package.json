@@ -19,14 +19,14 @@
 		"@auth/sveltekit": "^1.10.0",
 		"@prisma/client": "^6.1.0",
 		"chart.js": "^4.4.8",
-		"flatpickr": "^4.6.13",
-		"prisma": "^6.1.0"
+		"flatpickr": "^4.6.13"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "^5.5.2",
 		"@sveltejs/kit": "^2.50.1",
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
 		"@types/node": "^25.2.0",
+		"prisma": "^6.1.0",
 		"svelte": "^5.48.2",
 		"svelte-check": "^4.3.5",
 		"typescript": "^5.9.3",
