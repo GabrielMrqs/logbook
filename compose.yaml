@@ -11,28 +11,14 @@ services:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 3000
-      DATABASE_URL: postgresql://logbook:logbook@logbook-db:5432/logbook?schema=public
-    depends_on:
-      - logbook-db
     restart: unless-stopped
+    volumes:
+      - logbook_sqlite:/app/prisma
     networks:
       - proxy
 
-  logbook-db:
-    image: docker.io/library/postgres:16-alpine
-    container_name: logbook-db
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: logbook
-      POSTGRES_PASSWORD: logbook
-      POSTGRES_DB: logbook
-    volumes:
-      - logbook_pg:/var/lib/postgresql/data
-    restart: unless-stopped
-
 volumes:
-  logbook_pg:
+  logbook_sqlite:
 
 networks:
   proxy:
