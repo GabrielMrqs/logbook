@@ -1,0 +1,31 @@
+services:
+  app:
+    build: .
+    image: logbook:latest
+    container_name: logbook
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3000
+      DATABASE_URL: postgresql://logbook:logbook@db:5432/logbook?schema=public
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: logbook-db
+    environment:
+      POSTGRES_USER: logbook
+      POSTGRES_PASSWORD: logbook
+      POSTGRES_DB: logbook
+    volumes:
+      - logbook_pg:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  logbook_pg:
