@@ -1,0 +1,13 @@
+node_modules
+build
+.svelte-kit
+.vite
+.git
+.gitignore
+Dockerfile
+README.md
+pnpm-debug.log*
+*.log
+.env
+.env.*
+coverage
