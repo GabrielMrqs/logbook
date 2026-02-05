@@ -11,7 +11,7 @@ services:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 3000
-      DATABASE_URL: postgresql://logbook:logbook@db:5432/logbook?schema=public
+      DATABASE_URL: postgresql://logbook:logbook@logbook-db:5432/logbook?schema=public
     depends_on:
       - db
     restart: unless-stopped
