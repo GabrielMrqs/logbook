@@ -28,6 +28,12 @@ services:
       timeout: 3s
       retries: 5
       start_period: 20s
+    networks:
+      - proxy
 
 volumes:
   logbook_data:
+
+networks:
+  proxy:
+    external: true
