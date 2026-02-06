@@ -26,8 +26,27 @@ pnpm prisma migrate dev
 pnpm run dev
 ```
 
+## Podman quickstart
+```sh
+cp .env.example .env
+podman build -f Containerfile -t logbook:local .
+podman-compose up --build
+```
+
+Verify the app:
+```sh
+curl -f http://localhost:3000
+```
+
+Useful commands:
+```sh
+podman-compose logs -f
+podman-compose ps
+podman volume inspect logbook_data
+```
+
 ## Environment variables
-- `DATABASE_URL` (SQLite file path, e.g. `file:./dev.db`)
+- `DATABASE_URL` (SQLite file path, e.g. `file:./dev.db` for local dev or `file:/data/dev.db` for containers)
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
 - `AUTH_SECRET` (random string, at least 32 chars)

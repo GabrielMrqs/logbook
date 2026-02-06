@@ -1,18 +1,12 @@
 #!/bin/sh
 set -eu
 
+if [ -z "${DATABASE_URL:-}" ]; then
+  export DATABASE_URL="file:/data/dev.db"
+fi
+
 echo "Running database migrations..."
-tries=0
-until prisma migrate deploy; do
-  tries=$((tries + 1))
-  if [ "$tries" -ge 3 ]; then
-    echo "Migrate deploy failed. Falling back to 'prisma db push --accept-data-loss'..."
-    prisma db push --accept-data-loss
-    break
-  fi
-  echo "Migration failed. Retrying in 2s..."
-  sleep 2
-done
+prisma migrate deploy --schema /app/prisma/schema.prisma
 
 echo "Starting app..."
 exec "$@"

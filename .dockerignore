@@ -2,12 +2,16 @@ node_modules
 build
 .svelte-kit
 .vite
+.pnpm-store
 .git
 .gitignore
 Dockerfile
+Containerfile
 README.md
 pnpm-debug.log*
 *.log
 .env
 .env.*
 coverage
+prisma/dev.db
+*.db

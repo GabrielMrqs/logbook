@@ -1,8 +1,9 @@
 services:
   logbook:
-    build: .
-    image: logbook:latest
-    container_name: logbook
+    build:
+      context: .
+      dockerfile: Containerfile
+    image: logbook:local
     ports:
       - "3000:3000"
     env_file:
@@ -11,15 +12,22 @@ services:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 3000
+      DATABASE_URL: file:/data/dev.db
     restart: unless-stopped
     volumes:
-      - logbook_sqlite:/app/prisma
-    networks:
-      - proxy
+      - logbook_data:/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://127.0.0.1:3000', r => { process.exit(r.statusCode < 500 ? 0 : 1); }).on('error', () => process.exit(1));"
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
 
 volumes:
-  logbook_sqlite:
-
-networks:
-  proxy:
-    external: true
+  logbook_data:
