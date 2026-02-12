@@ -20,10 +20,13 @@ const toNullableString = (value: FormDataEntryValue | null) => {
 	return trimmed.length === 0 ? null : trimmed;
 };
 
+type OptionalNumberParseResult = { value: number | null } | { error: string };
+
 const parseOptionalNumber = (value: FormDataEntryValue | null, label: string) => {
+	const result: OptionalNumberParseResult = { value: null };
 	if (value === null) return { value: null };
 	const trimmed = String(value).trim();
-	if (trimmed.length === 0) return { value: null };
+	if (trimmed.length === 0) return result;
 	const numberValue = Number(trimmed);
 	if (!Number.isFinite(numberValue)) {
 		return { error: `${label} must be a number.` };
@@ -102,7 +105,7 @@ export const actions: Actions = {
 		}
 
 		const weightParsed = parseOptionalNumber(formData.get('weightKg'), 'Weight');
-		if (weightParsed.error) {
+		if ('error' in weightParsed) {
 			return fail(400, { error: weightParsed.error });
 		}
 		const weightKg = weightParsed.value;
@@ -111,7 +114,7 @@ export const actions: Actions = {
 		}
 
 		const bjjRatingParsed = parseOptionalNumber(formData.get('bjjRatingStars'), 'BJJ rating');
-		if (bjjRatingParsed.error) {
+		if ('error' in bjjRatingParsed) {
 			return fail(400, { error: bjjRatingParsed.error });
 		}
 		const bjjRatingStars = bjjRatingParsed.value;
@@ -121,7 +124,7 @@ export const actions: Actions = {
 		}
 
 		const gymRatingParsed = parseOptionalNumber(formData.get('gymRatingStars'), 'Gym rating');
-		if (gymRatingParsed.error) {
+		if ('error' in gymRatingParsed) {
 			return fail(400, { error: gymRatingParsed.error });
 		}
 		const gymRatingStars = gymRatingParsed.value;
@@ -131,7 +134,7 @@ export const actions: Actions = {
 		}
 
 		const ratingParsed = parseOptionalNumber(formData.get('ratingStars'), 'Rating');
-		if (ratingParsed.error) {
+		if ('error' in ratingParsed) {
 			return fail(400, { error: ratingParsed.error });
 		}
 		const ratingStars = ratingParsed.value;

@@ -4,7 +4,7 @@ import Google from '@auth/sveltekit/providers/google';
 import { env } from '$env/dynamic/private';
 import { prisma } from '$lib/server/db';
 
-export const { handle, signIn, signOut, GET, POST } = SvelteKitAuth({
+export const { handle, signIn, signOut } = SvelteKitAuth({
 	adapter: PrismaAdapter(prisma),
 	providers: [
 		Google({
