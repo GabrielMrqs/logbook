@@ -236,6 +236,30 @@ td {
 	border-bottom: 1px solid #eceae4;
 }
 
+.sort-button {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 6px;
+	background: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+}
+
+.sort-button:hover .sort-indicator,
+.sort-button:focus-visible .sort-indicator {
+	color: #2b6cb0;
+}
+
+.sort-indicator {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: #6b7280;
+}
+
 .actions-cell {
 	display: flex;
 	gap: 12px;

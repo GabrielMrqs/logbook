@@ -17,6 +17,8 @@
 	let bjjComment = $state('');
 	let gymComment = $state('');
 	let ratingComment = $state('');
+	let sortKey = $state<'date' | 'weight'>('date');
+	let sortDir = $state<'asc' | 'desc'>('asc');
 
 	const toDateLabel = (value: Date) => {
 		const day = String(value.getUTCDate()).padStart(2, '0');
@@ -26,6 +28,34 @@
 	};
 
 	const toStarLabel = (value: number | null) => (value ? `${value}★` : '-');
+
+	const toggleSort = (key: 'date' | 'weight') => {
+		if (sortKey === key) {
+			sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+		} else {
+			sortKey = key;
+			sortDir = key === 'date' ? 'asc' : 'asc';
+		}
+	};
+
+	const sortedEntries = $derived.by(() => {
+		const entries = [...data.entriesRecent];
+		entries.sort((a, b) => {
+			if (sortKey === 'date') {
+				const diff = a.date.getTime() - b.date.getTime();
+				return sortDir === 'asc' ? diff : -diff;
+			}
+
+			const aWeight = a.weightKg;
+			const bWeight = b.weightKg;
+			if (aWeight === null && bWeight === null) return 0;
+			if (aWeight === null) return 1;
+			if (bWeight === null) return -1;
+			const diff = aWeight - bWeight;
+			return sortDir === 'asc' ? diff : -diff;
+		});
+		return entries;
+	});
 
 	const resetForm = () => {
 		date = today;
@@ -181,8 +211,22 @@
 					<table>
 						<thead>
 							<tr>
-								<th>Date</th>
-								<th>Weight</th>
+								<th>
+									<button type="button" class="sort-button" onclick={() => toggleSort('date')}>
+										<span>Date</span>
+										<span class="sort-indicator">
+											{sortKey === 'date' ? (sortDir === 'asc' ? 'asc' : 'desc') : ''}
+										</span>
+									</button>
+								</th>
+								<th>
+									<button type="button" class="sort-button" onclick={() => toggleSort('weight')}>
+										<span>Weight</span>
+										<span class="sort-indicator">
+											{sortKey === 'weight' ? (sortDir === 'asc' ? 'asc' : 'desc') : ''}
+										</span>
+									</button>
+								</th>
 								<th>BJJ</th>
 								<th>Gym</th>
 								<th>Rating</th>
@@ -190,7 +234,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{#each data.entriesRecent as entry}
+							{#each sortedEntries as entry}
 								<tr>
 									<td>{toDateLabel(entry.date)}</td>
 									<td>{entry.weightKg ?? '-'}</td>
